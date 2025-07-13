@@ -3,10 +3,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using ProductApp.Api.Data;
 using ProductApp.Api.Models;
-using ProductApp.Api.DTOs; 
+using ProductApp.Api.DTOs;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+
+#nullable disable
+
+namespace ProductApp.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -35,9 +39,8 @@ public class AuthController : ControllerBase
             Name = model.Name,
             Email = model.Email,
             Password = BCrypt.Net.BCrypt.HashPassword(model.Password),
-            Role = model.Role ?? "User"  
+            Role = model.Role ?? "User"
         };
-
 
         _context.Users.Add(user);
         await _context.SaveChangesAsync();

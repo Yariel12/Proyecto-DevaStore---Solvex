@@ -4,6 +4,9 @@ using Microsoft.EntityFrameworkCore;
 using ProductApp.Api.Data;
 using ProductApp.Api.Models;
 
+
+namespace ProductApp.Api.Controllers;
+
 [ApiController]
 [Route("api/[controller]")]
 public class ProductsController : ControllerBase
@@ -33,14 +36,12 @@ public class ProductsController : ControllerBase
         var response = new
         {
             data = products,
-            total = total
+            total
         };
 
         return Ok(response);
-    }
 
-    // GET: api/products/{id}
-    [HttpGet("{id}")]
+        [HttpGet("{id}")]
     [AllowAnonymous]
     public async Task<IActionResult> GetById(int id)
     {
@@ -54,7 +55,6 @@ public class ProductsController : ControllerBase
         return Ok(product);
     }
 
-    // POST: api/products
     [HttpPost]
     [Authorize(Roles = "Admin,Seller")]
     public async Task<IActionResult> Create(Product product)
@@ -73,7 +73,6 @@ public class ProductsController : ControllerBase
         return CreatedAtAction(nameof(GetById), new { id = product.Id }, product);
     }
 
-    // PUT: api/products/{id}
     [HttpPut("{id}")]
     [Authorize(Roles = "Admin,Seller")]
     public async Task<IActionResult> Update(int id, Product updatedProduct)
@@ -111,7 +110,6 @@ public class ProductsController : ControllerBase
         return NoContent();
     }
 
-    // DELETE: api/products/{id}
     [HttpDelete("{id}")]
     [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Delete(int id)

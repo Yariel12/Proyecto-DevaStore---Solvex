@@ -2,21 +2,17 @@
 
 #nullable disable
 
-namespace Backend___Proyect.Migrations
+namespace Backend___Proyect.Migrations;
+
+public partial class AddImageToVariatios : Migration
 {
-    /// <inheritdoc />
-    public partial class AddImageToVariatios : Migration
+    protected override void Up(MigrationBuilder migrationBuilder)
     {
-        /// <inheritdoc />
-        protected override void Up(MigrationBuilder migrationBuilder)
-        {
 
-        }
+    }
 
-        /// <inheritdoc />
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
+    protected override void Down(MigrationBuilder migrationBuilder)
+    {
 
-        }
     }
 }

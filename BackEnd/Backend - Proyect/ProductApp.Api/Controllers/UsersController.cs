@@ -4,6 +4,9 @@ using Microsoft.EntityFrameworkCore;
 using ProductApp.Api.Data;
 using ProductApp.Api.Models;
 
+
+namespace ProductApp.Api.Controllers;
+
 [ApiController]
 [Route("api/[controller]")]
 public class UsersController : ControllerBase
