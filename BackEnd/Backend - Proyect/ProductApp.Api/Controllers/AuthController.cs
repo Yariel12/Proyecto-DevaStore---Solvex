@@ -25,7 +25,6 @@ public class AuthController : ControllerBase
         _config = config;
     }
 
-    // REGISTRO DE USUARIO
     [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] RegisterDto model)
     {
@@ -34,12 +33,18 @@ public class AuthController : ControllerBase
             return BadRequest("Este correo ya está registrado");
         }
 
+        var role = await _context.Roles.FindAsync(model.RoleId);
+        if (role == null)
+        {
+            return BadRequest("El rol proporcionado no existe");
+        }
+
         var user = new User
         {
             Name = model.Name,
             Email = model.Email,
             Password = BCrypt.Net.BCrypt.HashPassword(model.Password),
-            Role = model.Role ?? "User"
+            RoleId = model.RoleId
         };
 
         _context.Users.Add(user);
@@ -48,11 +53,13 @@ public class AuthController : ControllerBase
         return Ok("Usuario registrado correctamente");
     }
 
-    // LOGIN
     [HttpPost("login")]
     public async Task<IActionResult> Login(LoginModel model)
     {
-        var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
+        var user = await _context.Users
+            .Include(u => u.Role)
+            .FirstOrDefaultAsync(u => u.Email == model.Email);
+
         if (user == null)
             return Unauthorized("Correo incorrecto");
 
@@ -62,20 +69,18 @@ public class AuthController : ControllerBase
 
         var claims = new[]
         {
-            new Claim(ClaimTypes.Name, user.Name),
-            new Claim(ClaimTypes.Role, user.Role)
-        };
+        new Claim(ClaimTypes.Name, user.Name),
+        new Claim(ClaimTypes.Role, user.Role.Name) // Aquí accedemos al nombre real del rol
+    };
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
-        var now = DateTime.UtcNow;
 
         var token = new JwtSecurityToken(
             issuer: _config["Jwt:Issuer"],
             audience: _config["Jwt:Audience"],
             claims: claims,
-            expires: now.AddHours(2),
+            expires: DateTime.UtcNow.AddHours(2),
             signingCredentials: creds
         );
 
@@ -84,9 +89,10 @@ public class AuthController : ControllerBase
         return Ok(new
         {
             token = tokenString,
-            role = user.Role,
+            role = user.Role.Name,
             name = user.Name,
             email = user.Email
         });
     }
+
 }

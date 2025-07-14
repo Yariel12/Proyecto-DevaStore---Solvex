@@ -2,8 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProductApp.Api.Data;
-using ProductApp.Api.Models;
-
+using ProductApp.Api.DTOs;
 
 namespace ProductApp.Api.Controllers;
 
@@ -23,12 +22,14 @@ public class UsersController : ControllerBase
     public async Task<IActionResult> GetAll()
     {
         var users = await _context.Users
+            .Include(u => u.Role)
             .Select(u => new
             {
                 u.Id,
                 u.Name,
                 u.Email,
-                u.Role
+                RoleName = u.Role.Name,
+                RoleId = u.RoleId
             })
             .ToListAsync();
 
@@ -52,16 +53,19 @@ public class UsersController : ControllerBase
 
     [HttpPut("{id}/role")]
     [Authorize(Roles = "Admin")]
-    public async Task<IActionResult> UpdateRole(int id, [FromBody] string newRole)
+    public async Task<IActionResult> UpdateRole(int id, [FromBody] RoleUpdateDto dto)
     {
         var user = await _context.Users.FindAsync(id);
-
         if (user == null)
             return NotFound("Usuario no encontrado");
 
-        user.Role = newRole;
+        var role = await _context.Roles.FindAsync(dto.RoleId);
+        if (role == null)
+            return BadRequest("Rol no válido");
+
+        user.RoleId = dto.RoleId;
         await _context.SaveChangesAsync();
 
-        return Ok($"Rol del usuario actualizado a: {newRole}");
+        return Ok($"Rol del usuario actualizado a: {role.Name}");
     }
 }

@@ -11,7 +11,7 @@ export function useProductEditor(id) {
       try {
         const data = await getProductById(id);
         setProduct(data);
-      } catch (error) {
+      } catch {
         toast.error("Error al cargar el producto");
       } finally {
         setLoading(false);
@@ -23,15 +23,25 @@ export function useProductEditor(id) {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setProduct((prev) => ({ ...prev, [name]: value }));
+    let val = value;
+
+    if (name === "price" || name === "stock") {
+      val = value === "" ? "" : Number(value);
+    }
+
+    setProduct((prev) => ({ ...prev, [name]: val }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!product) return toast.error("Producto no cargado correctamente");
+
     try {
+      console.log("Enviando producto:", product);
       await updateProduct(id, product);
       toast.success("Producto actualizado correctamente");
     } catch (error) {
+      console.error("Error al actualizar:", error);
       toast.error("Error al actualizar el producto");
     }
   };

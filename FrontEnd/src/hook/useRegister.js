@@ -18,7 +18,13 @@ export function useRegister() {
     }
 
     try {
-      await register(name, email, password);
+      await register({
+        name,
+        email,
+        password,
+        role: "User",
+      });
+
       toast.success("Registro exitoso. Ya puedes iniciar sesión", {
         theme: "colored",
         autoClose: 2000,

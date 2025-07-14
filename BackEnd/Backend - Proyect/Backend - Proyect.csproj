@@ -8,6 +8,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="ProductApp.Api\Repositories\**" />
+    <Compile Remove="ProductApp.Api\Services\**" />
+    <Content Remove="ProductApp.Api\Repositories\**" />
+    <Content Remove="ProductApp.Api\Services\**" />
+    <EmbeddedResource Remove="ProductApp.Api\Repositories\**" />
+    <EmbeddedResource Remove="ProductApp.Api\Services\**" />
+    <None Remove="ProductApp.Api\Repositories\**" />
+    <None Remove="ProductApp.Api\Services\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.9" />
     <PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.3.0" />
@@ -18,11 +29,6 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="ProductApp.Api\Services\" />
-    <Folder Include="ProductApp.Api\Repositories\" />
   </ItemGroup>
 
 </Project>

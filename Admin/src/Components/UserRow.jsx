@@ -1,20 +1,23 @@
 import React from "react";
 import { FiTrash2 } from "react-icons/fi";
 
-function UserRow({ user, onDelete, onRoleChange }) {
+function UserRow({ user, roles = [], onDelete, onRoleChange }) {
   return (
     <tr className="border-t">
       <td className="px-4 py-2">{user.name}</td>
       <td className="px-4 py-2">{user.email}</td>
       <td className="px-4 py-2">
         <select
-          value={user.role}
-          onChange={(e) => onRoleChange(user.id, e.target.value)}
-          className="p-1 border rounded"
+          name="roleId"
+          value={user.roleId}
+          onChange={(e) => onRoleChange(user.id, parseInt(e.target.value))}
+          className="w-full px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
-          <option value="Admin">Admin</option>
-          <option value="User">User</option>
-          <option value="Seller">Seller</option>
+          {roles.map((role) => (
+            <option key={role.id} value={role.id}>
+              {role.name}
+            </option>
+          ))}
         </select>
       </td>
       <td className="px-4 py-2 text-center">

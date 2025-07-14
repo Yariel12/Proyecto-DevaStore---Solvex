@@ -1,15 +1,15 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { LoginAdminPanel } from "../services/AuthUserService";
-import { toast } from "react-toastify";
 import { FiMail, FiLock } from "react-icons/fi";
+import { useAuth } from "../Hook/useRegiterLoginAuth";
 
 function Login() {
   const [form, setForm] = useState({
     email: "",
     password: "",
   });
-  const [loading, setLoading] = useState(false);
+
+  const { login, loading } = useAuth();
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -18,26 +18,7 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    try {
-      const res = await LoginAdminPanel(form.email, form.password);
-
-      const userData = {
-        name: res.name,
-        email: res.email,
-        role: res.role,
-      };
-
-      localStorage.setItem("token", res.token);
-      localStorage.setItem("user", JSON.stringify(userData));
-
-      toast.success("Login correcto, redirigiendo...");
-      setTimeout(() => navigate("/"), 1500);
-    } catch (err) {
-      toast.error(err.response?.data || "Error en el login, revisa tus datos");
-    } finally {
-      setLoading(false);
-    }
+    await login(form.email, form.password);
   };
 
   return (
@@ -88,12 +69,13 @@ function Login() {
 
             <div className="mt-4 text-center">
               <p className="text-gray-600">
-                ¿Tienes una cuenta?{" "}
+                ¿No tienes cuenta?{" "}
                 <Link to="/register" className="text-blue-600 hover:underline">
-                  Registrate aquí
+                  Regístrate aquí
                 </Link>
               </p>
             </div>
+
             <button
               disabled={loading}
               type="submit"

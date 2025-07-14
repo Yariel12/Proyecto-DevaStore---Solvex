@@ -9,13 +9,15 @@ function Register() {
     name: "",
     email: "",
     password: "",
-    role: "Admin",
+    roleId: 2,
   });
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    const newValue = name === "roleId" ? parseInt(value) : value;
+    setForm({ ...form, [name]: newValue });
   };
 
   const handleSubmit = async (e) => {
@@ -23,7 +25,7 @@ function Register() {
     setLoading(true);
 
     try {
-      await registerAdminPanel(form.name, form.email, form.password, form.role);
+      await registerAdminPanel(form);
       toast.success("Usuario registrado correctamente!");
       navigate("/login");
     } catch (err) {
@@ -50,7 +52,6 @@ function Register() {
         </div>
       </div>
 
-      {/* Lado derecho - formulario */}
       <div className="flex items-center justify-center w-full px-6 py-12 bg-gray-100 lg:w-1/2">
         <div className="w-full max-w-md p-8 bg-white shadow-2xl rounded-2xl">
           <h2 className="mb-6 text-3xl font-bold text-center text-gray-800">
@@ -100,13 +101,13 @@ function Register() {
             <div className="relative">
               <FiUserCheck className="absolute text-gray-400 transform -translate-y-1/2 left-3 top-1/2" />
               <select
-                name="role"
-                value={form.role}
+                name="roleId"
+                value={form.roleId}
                 onChange={handleChange}
                 className="w-full px-10 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
-                <option value="Admin">Admin</option>
-                <option value="Seller">Seller</option>
+                <option value={1}>Admin</option>
+                <option value={2}>Seller</option>
               </select>
             </div>
 
@@ -114,7 +115,7 @@ function Register() {
               <p className="text-gray-600">
                 ¿Tienes una cuenta?{" "}
                 <Link to="/login" className="text-blue-600 hover:underline">
-                  Inicia sesion aquí
+                  Inicia sesión aquí
                 </Link>
               </p>
             </div>

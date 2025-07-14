@@ -3,7 +3,7 @@ import { getProducts, deleteProduct } from "../services/productService";
 import { toast, ToastContainer } from "react-toastify";
 import { useDeleteResource } from "../Hook/HandleClick";
 import { usePagination } from "../Hook/usePagination";
-import Pagination from "./Pagination.jsx";
+import Pagination from "../components/Pagination.jsx";
 import ProductItem from "../Components/ProductItem.jsx";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -37,12 +37,13 @@ function ProductsPage() {
   return (
     <div className="flex flex-col min-h-screen p-6 mx-auto max-w-7xl">
       <ToastContainer />
-      <div className="hidden grid-cols-[100px_1fr_2fr_100px_150px_60px] gap-4 items-center pb-3 mb-5 border-b font-semibold text-center md:grid">
+      <div className="hidden md:grid grid-cols-[100px_1fr_2fr_100px_150px_60px_60px] gap-4 items-center pb-3 mb-5 border-b font-semibold text-center">
         <div>Imagen</div>
         <div>Nombre</div>
         <div className="pl-2 text-left">Descripción</div>
         <div>Precio</div>
         <div>Variaciones</div>
+        <div>Stock</div>
         <div>Acción</div>
       </div>
 

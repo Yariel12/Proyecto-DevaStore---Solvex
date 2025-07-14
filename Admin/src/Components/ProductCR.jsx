@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import VariantsInput from "../components/VariantsInput";
+import VariantsInput from "../Components/VariantsInput";
 import { createProduct } from "../services/productService";
 import { toast } from "react-toastify";
 

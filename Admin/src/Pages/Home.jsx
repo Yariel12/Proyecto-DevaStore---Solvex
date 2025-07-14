@@ -1,15 +1,23 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function AdminHome() {
   const [user, setUser] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      navigate("/login");
+      return;
+    }
+
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     }
-  }, []);
+  }, [navigate]);
 
   return (
     <div className="p-10 mx-auto max-w-7xl">

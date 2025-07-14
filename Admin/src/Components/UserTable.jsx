@@ -1,7 +1,7 @@
 import React from "react";
 import UserRow from "./UserRow";
 
-function UserTable({ users, onRoleChange, onDelete }) {
+function UserTable({ users, roles, onRoleChange, onDelete }) {
   return (
     <div className="mt-6 overflow-x-auto">
       <table className="w-full text-left border border-gray-200">
@@ -18,6 +18,7 @@ function UserTable({ users, onRoleChange, onDelete }) {
             <UserRow
               key={user.id}
               user={user}
+              roles={roles}
               onRoleChange={onRoleChange}
               onDelete={onDelete}
             />

@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using ProductApp.Api.Data;
 using ProductApp.Api.Models;
 
-
 namespace ProductApp.Api.Controllers;
 
 [ApiController]
@@ -40,8 +39,9 @@ public class ProductsController : ControllerBase
         };
 
         return Ok(response);
+    }
 
-        [HttpGet("{id}")]
+    [HttpGet("{id}")]
     [AllowAnonymous]
     public async Task<IActionResult> GetById(int id)
     {

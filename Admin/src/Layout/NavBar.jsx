@@ -31,7 +31,6 @@ function NavBar() {
           DevaStore Admin Panel
         </Link>
 
-        {/* Botón hamburguesa (visible solo en móvil) */}
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           className="text-white md:hidden"
@@ -39,7 +38,6 @@ function NavBar() {
           {mobileMenuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
         </button>
 
-        {/* Menú en desktop */}
         <nav className="hidden space-x-6 md:block">
           <Link to="/" className="transition hover:text-blue-400">
             Inicio
@@ -57,7 +55,6 @@ function NavBar() {
           )}
         </nav>
 
-        {/* Usuario y logout */}
         <div
           className="relative items-center hidden gap-4 md:flex"
           ref={dropdownRef}
@@ -87,7 +84,6 @@ function NavBar() {
         </div>
       </div>
 
-      {/* Menú móvil */}
       {mobileMenuOpen && (
         <nav
           ref={mobileMenuRef}

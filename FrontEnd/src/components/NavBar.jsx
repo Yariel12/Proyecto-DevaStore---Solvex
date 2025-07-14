@@ -36,13 +36,11 @@ function NavBar() {
         <div className="items-center hidden gap-4 md:flex">
           {token ? (
             <>
-              <Link
-                to="/perfil"
+              <FiUser
+                size={20}
                 className="flex items-center gap-2 px-3 py-2 text-sm text-white transition rounded hover:text-blue-400"
-              >
-                <FiUser size={20} />
-                <span>Mi cuenta</span>
-              </Link>
+              />
+              <span>Mi cuenta</span>
               <button
                 onClick={handleLogout}
                 className="flex items-center gap-2 px-3 py-2 text-sm text-white transition rounded hover:text-red-400"
