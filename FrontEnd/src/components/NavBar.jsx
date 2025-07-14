@@ -39,12 +39,6 @@ function NavBar() {
           <Link to="/productosList" className="transition hover:text-blue-400">
             Productos
           </Link>
-          <Link to="/servicios" className="transition hover:text-blue-400">
-            Servicios
-          </Link>
-          <Link to="/contacto" className="transition hover:text-blue-400">
-            Contacto
-          </Link>
         </nav>
 
         {/* Usuario Desktop */}
@@ -86,20 +80,7 @@ function NavBar() {
           >
             Productos
           </Link>
-          <Link
-            to="/servicios"
-            onClick={toggleMenu}
-            className="hover:text-blue-400"
-          >
-            Servicios
-          </Link>
-          <Link
-            to="/contacto"
-            onClick={toggleMenu}
-            className="hover:text-blue-400"
-          >
-            Contacto
-          </Link>
+
           {token ? (
             <>
               <span className="flex items-center gap-2 text-white">
